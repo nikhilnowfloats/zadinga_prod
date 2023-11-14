@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <!-- <base href="/"> -->
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+  <!-- <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: 'unsafe-inline' 'unsafe-eval';"> -->
+
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="zadinga">
+  <link rel="apple-touch-icon" href="icons/zadinga_logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="zadinga_logo_small.png"/>
+
+  <title>zadinga</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "1138675266";
+  </script>
+   
+
+
+  <!-- This script adds the flutter initialization JS code -->
+  <!-- TODO: ADD PRODUCTION KEYS FOR MAPS -->
+  <script src="flutter.js" defer></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    window.onbeforeunload = function() {
+        return "Changes that you made will be lost.";
+    }
+  </script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        }
+      }).then(function(engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
+      });
+    });
+  </script>
+  <script>
+        if ('serviceWorker' in navigator) {
+           // Service workers are supported. Use them.
+           window.addEventListener('load', function () {
+             // ADD THIS LINE
+             navigator.serviceWorker.register('/firebase-messaging-sw.js');
+ 
+             // Wait for registration to finish before dropping the <script> tag.
+             // Otherwise, the browser will load the script multiple times,
+             // potentially different versions.
+             var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+             //  ...
+           });
+       }
+  </script>
+  <script>
+
+    const channel = new BroadcastChannel('audio-control');
+    channel.addEventListener('message', (event) => {
+        if (event.data === 'play-audio') {
+          var sound = new Howl({
+            src: ['order_sound.mp3']  // Replace with the path to your audio file
+          });
+          // Play the sound
+          sound.play();
+          // Send a message to the parent frame (Flutter web application)
+          setTimeout(function() {
+                alert("You have received a new order in Zadinga!\n Please head to the 'Order' tab for more details");
+            }, 1000); //
+          // window.parent.postMessage({ message: 'Hello from JavaScript' }, '*');
+        }
+    });
+
+    
+  </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.min.js"></script>
+  <script type="text/javascript">
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.worker.min.js";
+  </script>
+  <script src="https://unpkg.com/pica/dist/pica.min.js" ></script>
+  </script>
+</body>
+</html>
